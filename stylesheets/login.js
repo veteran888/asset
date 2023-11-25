@@ -1,0 +1,11 @@
+$(function(){const popupCenter=({url,title,w,h})=>{const dualScreenLeft=window.screenLeft!==undefined?window.screenLeft:window.screenX;const dualScreenTop=window.screenTop!==undefined?window.screenTop:window.screenY;const width=window.innerWidth?window.innerWidth:document.documentElement.clientWidth?document.documentElement.clientWidth:screen.width;const height=window.innerHeight?window.innerHeight:document.documentElement.clientHeight?document.documentElement.clientHeight:screen.height;const systemZoom=width/window.screen.availWidth;const left=(width-w)/2/systemZoom+dualScreenLeft;const top=(height-h)/2/systemZoom+dualScreenTop;const newWindow=window.open(url,title,`
+      scrollbars=yes,
+      width=${w/systemZoom},
+      height=${h/systemZoom},
+      top=${top},
+      left=${left}
+      `);if(window.focus)newWindow.focus();};$(document).ready(function(){let toggle_submit_login=false;$("#login-btn-submit").click(function(){if(!toggle_submit_login){toggle_submit_login=true;let newData={};let validate_item=$(".use-validate-login");for(let i=0;i<validate_item.length;i++){let item=validate_item[i];let value=$(item).val().replace(/\s+/g,"");var result_check=true
+if(result_check==false){Swal.fire({title:"ผิดพลาด!",icon:"warning",html:`<p style="font-size:18px">${result_check.msg}</p>`,onOpen:()=>{$(".swal2-header span").css("font-size","1rem");},});$(item).focus();toggle_submit_login=false;return;}
+newData[$(item).attr("name")]=value;}
+Swal.fire({icon:"info",title:"กรุณารอสักครู่",html:"กำลังตรวจสอบข้อมูล..",allowOutsideClick:false,onBeforeOpen:()=>{Swal.showLoading();},});$.post("/login",newData,function(resp){swal.close();if(resp.status==false){Swal.fire({title:"ไม่สำเร็จ!",icon:"error",html:`<p style="font-size:18px">${resp.msg}</p>`,onOpen:()=>{$(".swal2-header span").css("font-size","1rem");},});}else{var extra_query=$.param(crm_setting);$.get(`/chklogin?data=${resp.msg}&${extra_query}`,function(resp){window.location="/เกมยอดฮิต/autowin99";})}
+toggle_submit_login=false;})}});});});
